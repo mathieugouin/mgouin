@@ -99,8 +99,7 @@ def gmlsGetInfo(ref):
   url += urllib.urlencode(params)
   lines = []
   try:
-    f = urllib.urlopen(url)  # real
-    #f = open("c:/2.xml", 'r') # debug
+    f = urllib.urlopen(url)
 
     root = ET.parse(f).getroot()
     if root.find('status').text == 'OK':
@@ -124,8 +123,7 @@ def gmlsHandler(query):
   url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?"
   url += urllib.urlencode(params)
   try:
-    f = urllib.urlopen(url)  # real
-    #f = open("c:/1.xml", 'r') # debug
+    f = urllib.urlopen(url)
     root = ET.parse(f).getroot()
     if root.find('status').text == 'OK':
       results = root.findall('result')
