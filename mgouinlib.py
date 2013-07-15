@@ -59,16 +59,11 @@ def findStation(txt):
 ################################################################################
 def getMetar(station):
   metarLines = []
-  try:
-    for l in readUrl("http://weather.noaa.gov/pub/data/observations/metar/stations/" + station + ".TXT"):
-      if re.search('was not found on this server', l):
-        #metarLines = ["Metar " + station + " not available"]
-        #metarLines = findStation(station)
-        break
-      elif re.search(station, l):
-        metarLines.append(l)
-  except IOError:
-    pass
+  for l in readUrl("http://weather.noaa.gov/pub/data/observations/metar/stations/" + station + ".TXT"):
+    if re.search('was not found on this server', l):
+      break
+    elif re.search(station, l):
+      metarLines.append(l)
   return metarLines
 
 ################################################################################
