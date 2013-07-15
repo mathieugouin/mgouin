@@ -1,0 +1,13 @@
+application: mgouin
+version: 5
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /gmls/?
+  script: gmls.app
+
+- url: /.*
+  script: mgouin.app
+
