@@ -4,6 +4,25 @@ import re
 
 import mgouinlib as MGL
 
+# parameter:
+#  txtweb-verifyid
+#   The txtweb-verifyid string that was sent to your app
+#
+#  txtweb-message
+#   The txtweb-message string that was sent to your app
+#
+#  txtweb-mobile
+#   The txtweb-mobile string that was sent to your app
+#
+#  txtweb-protocol
+#   The txtweb-protocol string that was sent to your app
+#
+#
+#   http://weather.noaa.gov/pub/data/observations/metar/stations/CYHU.TXT
+#   http://weather.rap.ucar.edu/surface/stations.txt
+#   http://localhost:8080/?txtweb-message=CYHU
+#   http://mgouin.appspot.com/?txtweb-message=CYHU
+
 class MainPage(webapp2.RequestHandler):
     def get(self):
         self.response.headers["Content-Type"] = "text/html"
