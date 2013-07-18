@@ -22,6 +22,7 @@ import cgi
 
 GOOGLE_API_KEY = "AIzaSyBzHSfl-SZJpgCwSTnAhHjlDH5W3BDIMDk"
 BLANK_LINE = ""
+GOOGLE_SENSOR  = "false"
 
 ################################################################################
 def readUrl(url):
@@ -93,7 +94,7 @@ def metarHandler(station):
 ################################################################################
 def gmlsGetInfo(ref):
   params = {'reference' : ref,
-            'sensor' : 'false',
+            'sensor' : GOOGLE_SENSOR,
             'key' : GOOGLE_API_KEY}
   url = "https://maps.googleapis.com/maps/api/place/details/xml?"
   url += urllib.urlencode(params)
@@ -118,7 +119,7 @@ def gmlsHandler(query):
   lines = []
   #query = ''.join(x for x in unicodedata.normalize('NFKD', query))
   params = {'query' : query,
-            'sensor' : 'false',
+            'sensor' : GOOGLE_SENSOR,
             'key' : GOOGLE_API_KEY}
   url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?"
   url += urllib.urlencode(params)
@@ -142,7 +143,7 @@ def gmlsHandler(query):
   return lines
 
 def unitTest():
-  query = "Hardware store near St-Hubert, Qc"
+  query = "Tim Hortons in St-Laurent"
   print urllib.urlencode({'q' : query})
   #print gmlsHandler(query)
   for s in ['<', '>', '&']:
@@ -156,6 +157,6 @@ def main():
   print s
 
 if __name__ == '__main__':
-  main()
+  #main()
   unitTest()
 
