@@ -24,7 +24,7 @@ import mgouinlib as MGL
 class MainPage(webapp2.RequestHandler):
   def get(self):
     self.response.headers["Content-Type"] = "text/html"
-    self.response.write('<html><head><title>GMLS</title><meta name="txtweb-appkey" content="ae878361-320b-4dcf-90b8-39ac8f7e4e75" /></head>\n<body>\n\n')
+    self.response.write('<html><head><title>mgouin</title><meta name="txtweb-appkey" content="ae878361-320b-4dcf-90b8-39ac8f7e4e75" /></head>\n<body>\n\n')
 
     # DEBUG: Print all arguments
     #for a in self.request.arguments():
@@ -43,7 +43,7 @@ class MainPage(webapp2.RequestHandler):
       lines += MGL.gmlsHandler(query)
 
     for l in lines:
-      self.response.write(MGL.processLine(l))
+      self.response.write("<div>" + l + "</div>\n")
 
     self.response.write("\n")
     self.response.write(r"""<script>""")

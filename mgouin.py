@@ -4,31 +4,29 @@ import re
 
 import mgouinlib as MGL
 
+# parameter:
+#  txtweb-verifyid
+#   The txtweb-verifyid string that was sent to your app
+#
+#  txtweb-message
+#   The txtweb-message string that was sent to your app
+#
+#  txtweb-mobile
+#   The txtweb-mobile string that was sent to your app
+#
+#  txtweb-protocol
+#   The txtweb-protocol string that was sent to your app
+#
+#
+#   http://weather.noaa.gov/pub/data/observations/metar/stations/CYHU.TXT
+#   http://weather.rap.ucar.edu/surface/stations.txt
+#   http://localhost:8080/?txtweb-message=CYHU
+#   http://mgouin.appspot.com/?txtweb-message=CYHU
+
 class MainPage(webapp2.RequestHandler):
-
     def get(self):
-
-        # parameter:
-        #  txtweb-verifyid
-        #   The txtweb-verifyid string that was sent to your app
-        #
-        #  txtweb-message
-        #   The txtweb-message string that was sent to your app
-        #
-        #  txtweb-mobile
-        #   The txtweb-mobile string that was sent to your app
-        #
-        #  txtweb-protocol
-        #   The txtweb-protocol string that was sent to your app
-        #
-        #
-        #   http://weather.noaa.gov/pub/data/observations/metar/stations/CYHU.TXT
-        #   http://weather.rap.ucar.edu/surface/stations.txt
-        #   http://localhost:8080/?txtweb-message=CYHU
-        #   http://mgouin.appspot.com/?txtweb-message=CYHU
-
         self.response.headers["Content-Type"] = "text/html"
-        self.response.write('<html><head><title>METAR</title><meta name="txtweb-appkey" content="9dd9146a-ad9f-4dea-b38f-065b4165b357" /></head>\n<body>\n')
+        self.response.write('<html><head><title>mgouin</title><meta name="txtweb-appkey" content="9dd9146a-ad9f-4dea-b38f-065b4165b357" /></head>\n<body>\n')
         #self.response.write("<div>MGouin App</div>")
 
         #for a in self.request.arguments():
@@ -41,7 +39,7 @@ class MainPage(webapp2.RequestHandler):
 
         # Write response
         for l in lines:
-            self.response.write(MGL.processLine(l))
+            self.response.write("<div>" + l + "</div>\n")
 
         self.response.write(r"""<script>""")
         self.response.write(r"""  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){""" + "\n")

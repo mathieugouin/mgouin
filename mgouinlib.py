@@ -1,7 +1,6 @@
 import urllib
 import re
 import xml.etree.ElementTree as ET
-import cgi
 #import unicodedata
 
 # Notes:
@@ -21,7 +20,7 @@ import cgi
 #
 
 GOOGLE_API_KEY = "AIzaSyBzHSfl-SZJpgCwSTnAhHjlDH5W3BDIMDk"
-BLANK_LINE = ""
+GOOGLE_SENSOR  = 'false'
 
 ################################################################################
 def readUrl(url):
@@ -34,21 +33,6 @@ def readUrl(url):
   return lines
 
 ################################################################################
-def htmlEscape(line):
-  return cgi.escape(line)
-
-################################################################################
-def surroundDiv(line):
-  return "<div>" + line + "</div>\n"
-
-################################################################################
-def processLine(line):
-  if line == "":
-    return surroundDiv("&nbsp;")
-  else:
-    return surroundDiv(htmlEscape(line))
-
-################################################################################
 def findStation(txt):
   lines = []
   for l in readUrl("http://weather.rap.ucar.edu/surface/stations.txt"):
@@ -59,11 +43,16 @@ def findStation(txt):
 ################################################################################
 def getMetar(station):
   metarLines = []
-  for l in readUrl("http://weather.noaa.gov/pub/data/observations/metar/stations/" + station + ".TXT"):
-    if re.search('was not found on this server', l):
-      break
-    elif re.search(station, l):
-      metarLines.append(l)
+  try:
+    for l in readUrl("http://weather.noaa.gov/pub/data/observations/metar/stations/" + station + ".TXT"):
+      if re.search('was not found on this server', l):
+        #metarLines = ["Metar " + station + " not available"]
+        #metarLines = findStation(station)
+        break
+      elif re.search(station, l):
+        metarLines.append(l)
+  except IOError:
+    pass
   return metarLines
 
 ################################################################################
@@ -84,22 +73,23 @@ def metarHandler(station):
         match = re.match('^(.............................)', l)
         if match:
           lines.append(match.group(0))
-          lines.append(BLANK_LINE)
+          lines.append("&nbsp") # blank lines
   else:
-    lines = ["No station provided", "Syntax: @mgouin <STATION>", "Example: @mgouin KJFK"]
+    lines = ["No station provided", "Syntax: @mgouin &lt;STATION&gt;", "Example: @mgouin KJFK"]
 
   return lines
 
 ################################################################################
 def gmlsGetInfo(ref):
   params = {'reference' : ref,
-            'sensor' : 'false',
+            'sensor' : GOOGLE_SENSOR,
             'key' : GOOGLE_API_KEY}
   url = "https://maps.googleapis.com/maps/api/place/details/xml?"
   url += urllib.urlencode(params)
   lines = []
   try:
-    f = urllib.urlopen(url)
+    f = urllib.urlopen(url)  # real
+    #f = open("c:/2.xml", 'r') # debug
 
     root = ET.parse(f).getroot()
     if root.find('status').text == 'OK':
@@ -108,7 +98,7 @@ def gmlsGetInfo(ref):
         lines.append(result.find('formatted_address').text)
         lines.append(result.find('formatted_phone_number').text)
   except:
-    pass
+    lines = []
 
   return lines
 
@@ -118,35 +108,30 @@ def gmlsHandler(query):
   lines = []
   #query = ''.join(x for x in unicodedata.normalize('NFKD', query))
   params = {'query' : query,
-            'sensor' : 'false',
+            'sensor' : GOOGLE_SENSOR,
             'key' : GOOGLE_API_KEY}
   url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?"
   url += urllib.urlencode(params)
   try:
-    f = urllib.urlopen(url)
+    f = urllib.urlopen(url)  # real
+    #f = open("c:/1.xml", 'r') # debug
     root = ET.parse(f).getroot()
     if root.find('status').text == 'OK':
       results = root.findall('result')
       for i in range(min(10, len(results))):
         result = results[i]
-        infoLines = gmlsGetInfo(result.find("reference").text)
-        s = "#%d. " % (i + 1)
-        if len(infoLines) > 0:
-          s += infoLines.pop(0)
-        lines.append(s)
-        lines += infoLines
-        lines.append(BLANK_LINE)
+        lines.append("%d." % (i + 1))
+        ref = result.find("reference").text
+        lines += gmlsGetInfo(ref)
   except:
-    pass
+    lines = []
 
   return lines
 
 def unitTest():
-  query = "Hardware store near St-Hubert, Qc"
+  query = "Tim Hortons in St-Laurent"
   print urllib.urlencode({'q' : query})
-  #print gmlsHandler(query)
-  for s in ['<', '>', '&']:
-    print htmlEscape(s)
+  print gmlsHandler(query)
 
 def main():
   s = "QC SAINT HUBERT ARP CYHU  YHU   71371  45 31N  073 25W   27   X     T          6 CA\n"
@@ -156,6 +141,6 @@ def main():
   print s
 
 if __name__ == '__main__':
-  main()
+  #main()
   unitTest()
 
