@@ -130,6 +130,8 @@ def metarHandler(station):
                 if match:
                     lines.append(match.group(1))
                     lines.append(BLANK_LINE)
+            if len(lines) >= 2:
+                lines.pop() # remove last blank line 
     else:
         lines = ["No station provided", "Syntax: @mgouin <STATION>", "Example: @mgouin KJFK"]
 
@@ -175,10 +177,12 @@ def gmlsHandler(query):
                 infoLines = gmlsGetInfo(result.find("reference").text)
                 s = "#%d. " % (i + 1)
                 if len(infoLines) > 0:
-                    s += infoLines.pop(0)
+                    s += infoLines.pop(0) # put place title with the number
                 lines.append(s)
                 lines += infoLines
                 lines.append(BLANK_LINE)
+            if len(lines) >= 1:
+                lines.pop() # remove last blank line
     except:
         pass
 
