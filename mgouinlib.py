@@ -95,7 +95,7 @@ def getMetar2(station):
 
 ################################################################################
 def getTaf(station):
-    tafLines = []
+    lines = []
     url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
     html = readUrlAll(url)
     #html = open(r"H:\python\mgouin\metar_taf.html").read() # DEBUG
@@ -104,9 +104,11 @@ def getTaf(station):
         for l in match.group(1).split("\n"):
             l = l.strip()
             if l != "":
-                tafLines.append(l)
-                tafLines.append(BLANK_LINE)
-    return tafLines
+                lines.append(l)
+                lines.append(BLANK_LINE)
+        if len(lines) >= 2:
+            lines.pop() # remove last blank line
+    return lines
 
 ################################################################################
 def metarHandler(station):
@@ -123,7 +125,7 @@ def metarHandler(station):
             lines += metarLines
         else: # metar data not found
             for l in findStation(station): # try to find the name of the station
-                #                   CO GRAND JUNCTION   KGJT  GJT
+                #                    CO GRAND JUNCTION   KGJT  GJT
                 match = re.match(r"^(.............................)", l)
                 if match:
                     lines.append(match.group(1))
