@@ -1,4 +1,5 @@
 import urllib
+import urllib2
 import re
 import xml.etree.ElementTree as ET
 import cgi
@@ -28,7 +29,7 @@ GOOGLE_SENSOR  = "false"
 def readUrl(url):
   lines = []
   try:
-    for l in urllib.urlopen(url):
+    for l in urllib2.urlopen(url):
       lines.append(l.rstrip())
   except:
     pass
@@ -68,23 +69,38 @@ def getMetar(station):
   return metarLines
 
 ################################################################################
+def getMetar2(station):
+  metarLines = []
+  url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
+  try:
+    html = urllib2.urlopen(url).read()
+    match = re.search(r">(" + station + r"\b.+?)</FONT>", html, re.MULTILINE | re.DOTALL)
+    if match:
+      s = match.group(1)
+      metarLines.append(re.sub(r"\n *", " ", s))
+  except:
+    pass
+  return metarLines
+
+################################################################################
 def metarHandler(station):
   lines = []
+  station = station.upper()
   if len(station) > 0:  # user provided a station
-    metarLines = getMetar(station)
+    metarLines = getMetar2(station)
     if len(metarLines) > 0:  # metar data available
       stationName = findStation(station)
       if len(stationName) > 0:
-        match = re.match('^(...................)', stationName[0])
+        match = re.match(r"^(...................)", stationName[0])
         if match:
-          lines.append(match.group(0))
+          lines.append(match.group(1))
       lines += metarLines
     else: # metar data not found
       for l in findStation(station): # try to find the name of the station
         #                   CO GRAND JUNCTION   KGJT  GJT
-        match = re.match('^(.............................)', l)
+        match = re.match(r"^(.............................)", l)
         if match:
-          lines.append(match.group(0))
+          lines.append(match.group(1))
           lines.append(BLANK_LINE)
   else:
     lines = ["No station provided", "Syntax: @mgouin <STATION>", "Example: @mgouin KJFK"]
@@ -117,7 +133,6 @@ def gmlsGetInfo(ref):
 ################################################################################
 def gmlsHandler(query):
   lines = []
-  #query = ''.join(x for x in unicodedata.normalize('NFKD', query))
   params = {'query' : query,
             'sensor' : GOOGLE_SENSOR,
             'key' : GOOGLE_API_KEY}
@@ -156,7 +171,16 @@ def main():
   s = s.rstrip()
   print s
 
+def metarTest():
+  station = "kcme"
+  #print getMetar(station) == getMetar2(station)
+  #print getMetar(station)
+  print getMetar2(station)
+  #print metarHandler(station)
+
 if __name__ == '__main__':
   #main()
-  unitTest()
+  #unitTest()
+  metarTest()
+  #print metarHandler("CYUL")
 
