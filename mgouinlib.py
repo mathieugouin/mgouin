@@ -33,6 +33,18 @@ def htmlEscape(line):
     return cgi.escape(line)
 
 ################################################################################
+def encodeDict(in_dict):
+    out_dict = {}
+    for k, v in in_dict.iteritems():
+        if isinstance(v, unicode):
+            v = v.encode('utf8')
+        elif isinstance(v, str):
+            # Must be encoded in UTF-8
+            v.decode('utf8')
+        out_dict[k] = v
+    return out_dict
+
+################################################################################
 def surroundDiv(line):
     return "<div>" + line + "</div>\n"
 
@@ -106,7 +118,7 @@ def gmlsGetInfo(ref):
               'sensor' : GOOGLE_SENSOR,
               'key' : GOOGLE_API_KEY}
     url = "https://maps.googleapis.com/maps/api/place/details/xml?"
-    url += urllib.urlencode(params)
+    url += urllib.urlencode(encodeDict(params))
     lines = []
     try:
         f = urllib.urlopen(url)
@@ -129,7 +141,7 @@ def gmlsHandler(query):
               'sensor' : GOOGLE_SENSOR,
               'key' : GOOGLE_API_KEY}
     url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?"
-    url += urllib.urlencode(params)
+    url += urllib.urlencode(encodeDict(params))
     try:
         f = urllib.urlopen(url)
         root = ET.parse(f).getroot()
@@ -151,10 +163,11 @@ def gmlsHandler(query):
 
 ################################################################################
 def gmlsTest():
-    query = "Podiatre near Saint-Hubert, Qc"
-    print urllib.urlencode({'q' : query})
+    query = u"caf\xe9 \xe0 montr\xe9al"
+    print query
+    print urllib.urlencode(encodeDict({'q' : query}))
     for l in gmlsHandler(query):
-        print l
+        #print l
         print processLine(l)
 
     #for s in ['<', '>', '&']:
@@ -168,9 +181,18 @@ def metarTest():
     print getMetar2(station)
     #print metarHandler(station)
 
+################################################################################
+def urlTest():
+    import urlparse
+    # app log from txt web request
+    s = "txtweb-message=caf%C3%A9%20%C3%A0%20montreal&txtweb-id=06328cbf-798a-4365-90e8-cf57d68adc83&txtweb-verifyid=2e23f5645001f5e593ec67ab514068ca1624d81c36c7a9c0b8b8ad0c65c77fb06148c35995f6bffe775a49e57a0722830c3d2d873d565af54a5d94c8198501fe5d5fb0757d74e1b2128440157b0985a6f0975f415a3ffe22b09963d6f8187ad74f3ccd54ed0f5f44e8e345f43c677c34&txtweb-mobile=6db73ff6-0877-4333-956d-4de994c5a201&txtweb-aggid=10002&txtweb-protocol=1000"
+    print dict(urlparse.parse_qsl(s))
+
+################################################################################
 def main():
     #metarTest()
     gmlsTest()
+    #urlTest()
 
 if __name__ == '__main__':
     main()
