@@ -59,7 +59,7 @@ def surroundDiv(line):
 
 ################################################################################
 def processLine(line):
-    if line == "":
+    if line == BLANK_LINE:
         return surroundDiv("&nbsp;")
     else:
         return surroundDiv(htmlEscape(line))
