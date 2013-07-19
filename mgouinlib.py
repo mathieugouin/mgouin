@@ -105,6 +105,7 @@ def getTaf(station):
             l = l.strip()
             if l != "":
                 tafLines.append(l)
+                tafLines.append(BLANK_LINE)
     return tafLines
 
 ################################################################################
