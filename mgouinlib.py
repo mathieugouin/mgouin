@@ -29,6 +29,15 @@ def readUrl(url):
     return lines
 
 ################################################################################
+def readUrlAll(url):
+    html = ""
+    try:
+        html = urllib2.urlopen(url).read()
+    except:
+        pass
+    return html
+
+################################################################################
 def htmlEscape(line):
     return cgi.escape(line)
 
@@ -77,15 +86,26 @@ def getMetar(station):
 def getMetar2(station):
     metarLines = []
     url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
-    try:
-        html = urllib2.urlopen(url).read()
-        match = re.search(r">(" + station + r"\b.+?)</FONT>", html, re.MULTILINE | re.DOTALL)
-        if match:
-            s = match.group(1)
-            metarLines.append(re.sub(r"\n *", " ", s))
-    except:
-        pass
+    html = readUrlAll(url)
+    match = re.search(r">(" + station + r"\b.+?)</FONT>", html, re.MULTILINE | re.DOTALL)
+    if match:
+        s = match.group(1)
+        metarLines.append(re.sub(r"\n *", " ", s))
     return metarLines
+
+################################################################################
+def getTaf(station):
+    tafLines = []
+    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
+    html = readUrlAll(url)
+    #html = open(r"H:\python\mgouin\metar_taf.html").read() # DEBUG
+    match = re.search(r">(TAF\b.+?)</font>", html, re.MULTILINE | re.DOTALL)
+    if match:
+        for l in match.group(1).split("\n"):
+            l = l.strip()
+            if l != "":
+                tafLines.append(l)
+    return tafLines
 
 ################################################################################
 def metarHandler(station):
