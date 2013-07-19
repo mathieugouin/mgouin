@@ -9,9 +9,6 @@ import cgi
 # https://appengine.google.com/
 # https://code.google.com/apis/console/
 # https://developers.google.com/places/documentation/search
-# https://maps.googleapis.com/maps/api/place/textsearch/xml?query=giorgio+near+Montreal&sensor=true&key=AIzaSyBzHSfl-SZJpgCwSTnAhHjlDH5W3BDIMDk
-#
-# https://maps.googleapis.com/maps/api/place/details/xml?reference=CnRvAAAAtH01YmwBchXwwAEILacJxZrYSh9KMgAll6sSKxDPr8SJWxX2Uz6bpETVzG29cUADa3plL2-G1Cs68C_P8O72f7z1FaC0Dhl9eft368s_XNrHZgQjvpmQYXG-lTS5pUYgIifMwWfxDhdrZhsblEAOBBIQ-pXarAl7OjHDrI4UqCMAyhoU1_cOFN_nGxK7vctY-Ez735fRSJ4&sensor=true&key=AIzaSyBzHSfl-SZJpgCwSTnAhHjlDH5W3BDIMDk
 ################################################################################
 
 GOOGLE_API_KEY = "AIzaSyBzHSfl-SZJpgCwSTnAhHjlDH5W3BDIMDk"
