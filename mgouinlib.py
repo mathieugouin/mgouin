@@ -132,7 +132,7 @@ def metarHandler(station):
             if len(lines) >= 2:
                 lines.pop() # remove last blank line 
     else:
-        lines = ["No station provided", "Syntax: @mgouin <STATION>", "Example: @mgouin KJFK"]
+        lines = ["METAR Syntax: @mgouin <station>", "Example: @mgouin KJFK", "Airport Finder Syntax:", "@mgouin <keyword>", "Example: @mgouin miami"]
 
     return lines
 
