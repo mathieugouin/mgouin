@@ -82,7 +82,8 @@ def getMetar(station):
 ################################################################################
 def getMetar2(station):
     metarLines = []
-    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
+    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station +
+          "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
     html = readUrlAll(url)
     match = re.search(r">(" + station + r"\b.+?)</FONT>", html, re.MULTILINE | re.DOTALL)
     if match:
@@ -93,7 +94,8 @@ def getMetar2(station):
 ################################################################################
 def getTaf(station):
     lines = []
-    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
+    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station +
+          "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
     html = readUrlAll(url)
     #html = open(r"H:\python\mgouin\metar_taf.html").read() # DEBUG
     match = re.search(r">(TAF\b.+?)</font>", html, re.MULTILINE | re.DOTALL)
@@ -209,7 +211,7 @@ def metarTest():
 def urlTest():
     import urlparse
     # app log from txt web request
-    s = "txtweb-message=caf%C3%A9%20%C3%A0%20montreal&txtweb-id=06328cbf-798a-4365-90e8-cf57d68adc83&txtweb-verifyid=2e23f5645001f5e593ec67ab514068ca1624d81c36c7a9c0b8b8ad0c65c77fb06148c35995f6bffe775a49e57a0722830c3d2d873d565af54a5d94c8198501fe5d5fb0757d74e1b2128440157b0985a6f0975f415a3ffe22b09963d6f8187ad74f3ccd54ed0f5f44e8e345f43c677c34&txtweb-mobile=6db73ff6-0877-4333-956d-4de994c5a201&txtweb-aggid=10002&txtweb-protocol=1000"
+    s = "txtweb-message=caf%C3%A9%20%C3%A0%20montreal"
     print dict(urlparse.parse_qsl(s))
 
 ################################################################################
