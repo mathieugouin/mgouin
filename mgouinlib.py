@@ -82,7 +82,7 @@ def getMetar(station):
 ################################################################################
 def getMetar2(station):
     metarLines = []
-    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station +
+    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + \
           "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
     html = readUrlAll(url)
     match = re.search(r">(" + station + r"\b.+?)</FONT>", html, re.MULTILINE | re.DOTALL)
@@ -94,7 +94,7 @@ def getMetar2(station):
 ################################################################################
 def getTaf(station):
     lines = []
-    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station +
+    url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + \
           "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
     html = readUrlAll(url)
     #html = open(r"H:\python\mgouin\metar_taf.html").read() # DEBUG
@@ -130,9 +130,13 @@ def metarHandler(station):
                     lines.append(match.group(1))
                     lines.append(BLANK_LINE)
             if len(lines) >= 2:
-                lines.pop() # remove last blank line 
+                lines.pop() # remove last blank line
     else:
-        lines = ["METAR Syntax: @mgouin <station>", "Example: @mgouin KJFK", "Airport Finder Syntax:", "@mgouin <keyword>", "Example: @mgouin miami"]
+        lines = ["METAR Syntax: @mgouin <station>",
+                 "Example: @mgouin KJFK",
+                 "Airport Finder Syntax:",
+                 "@mgouin <keyword>",
+                 "Example: @mgouin miami"]
 
     return lines
 
