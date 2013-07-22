@@ -167,7 +167,7 @@ def gmlsHandler(query):
     url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?"
     url += urllib.urlencode(encodeDict(params))
     try:
-        f = urllib.urlopen(url)
+        f = urllib2.urlopen(url)
         root = ET.parse(f).getroot()
         if root.find('status').text == 'OK':
             results = root.findall('result')
@@ -180,7 +180,7 @@ def gmlsHandler(query):
                 lines.append(s)
                 lines += infoLines
                 lines.append(BLANK_LINE)
-            if len(lines) >= 1:
+            if len(lines) >= 2:
                 lines.pop() # remove last blank line
     except:
         pass
@@ -195,9 +195,6 @@ def gmlsTest():
     for l in gmlsHandler(query):
         #print l
         print processLine(l)
-
-    #for s in ['<', '>', '&']:
-    #    print htmlEscape(s)
 
 ################################################################################
 def metarTest():
