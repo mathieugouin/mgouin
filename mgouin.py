@@ -1,6 +1,5 @@
 import webapp2
 import urllib
-import re
 
 import mgouinlib as MGL
 
