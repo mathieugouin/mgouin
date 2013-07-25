@@ -97,7 +97,6 @@ def getTaf(station):
     url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + \
           "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
     html = readUrlAll(url)
-    #html = open(r"H:\python\mgouin\metar_taf.html").read() # DEBUG
     match = re.search(r">(TAF\b.+?)</font>", html, re.MULTILINE | re.DOTALL)
     if match:
         for l in match.group(1).split("\n"):
@@ -122,6 +121,11 @@ def metarHandler(station):
                 if match:
                     lines.append(match.group(1))
             lines += metarLines
+            # Find taf data
+            tafLines = getTaf(station)
+            if len(tafLines) > 0:
+                lines.append(BLANK_LINE)
+                lines += tafLines
         else: # metar data not found
             for l in findStation(station): # try to find the name of the station
                 #                    CO GRAND JUNCTION   KGJT  GJT
@@ -192,21 +196,24 @@ def gmlsHandler(query):
     return lines
 
 ################################################################################
+def outputTest(lines):
+    for l in lines:
+        print processLine(l),
+
+################################################################################
 def gmlsTest():
     query = u"caf\xe9 \xe0 montr\xe9al"
     print query
     print urllib.urlencode(encodeDict({'q' : query}))
-    for l in gmlsHandler(query):
-        #print l
-        print processLine(l)
+    outputTest(gmlsHandler(query))
 
 ################################################################################
 def metarTest():
     station = "CYHU"
     #print getMetar(station) == getMetar2(station)
-    print getMetar(station)
-    print getMetar2(station)
-    #print metarHandler(station)
+    #print getMetar(station)
+    #print getMetar2(station)
+    outputTest(metarHandler(station))
 
 ################################################################################
 def urlTest():
@@ -217,8 +224,8 @@ def urlTest():
 
 ################################################################################
 def main():
-    #metarTest()
-    gmlsTest()
+    metarTest()
+    #gmlsTest()
     #urlTest()
 
 if __name__ == '__main__':
