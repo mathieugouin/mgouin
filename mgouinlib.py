@@ -95,9 +95,9 @@ def getMetar2(station):
 def getTaf(station):
     lines = []
     url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + \
-          "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
+          "&std_trans=standard&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
     html = readUrlAll(url)
-    match = re.search(r">(TAF\b.+?)</font>", html, re.MULTILINE | re.DOTALL)
+    match = re.search(r"""<PRE><font face="Monospace,Courier" size="+1">(.+?)</font></PRE>""", html, re.MULTILINE | re.DOTALL)
     if match:
         for l in match.group(1).split("\n"):
             l = l.strip()
