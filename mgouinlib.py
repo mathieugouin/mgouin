@@ -83,7 +83,7 @@ def getMetar(station):
 def getMetar2(station):
     metarLines = []
     url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + \
-          "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
+          "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&submitmet=Submit"
     html = readUrlAll(url)
     match = re.search(r">(" + station + r"\b.+?)</FONT>", html, re.MULTILINE | re.DOTALL)
     if match:
