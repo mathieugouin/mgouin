@@ -97,7 +97,11 @@ def getTaf(station):
     url = "http://aviationweather.gov/adds/metars/?station_ids=" + station + \
           "&std_trans=standard&hoursStr=most+recent+only&chk_tafs=on&submitmet=Submit"
     html = readUrlAll(url)
-    match = re.search(r"""<PRE><font face="Monospace,Courier" size="+1">(.+?)</font></PRE>""", html, re.MULTILINE | re.DOTALL)
+    match = re.search(
+        re.escape(r"""<PRE><font face="Monospace,Courier" size="+1">""") + \
+        "(.+?)" + \
+        re.escape("</font></PRE>"),
+        html, re.MULTILINE | re.DOTALL)
     if match:
         for l in match.group(1).split("\n"):
             l = l.strip()
@@ -213,6 +217,7 @@ def metarTest():
     #print getMetar(station) == getMetar2(station)
     #print getMetar(station)
     #print getMetar2(station)
+    #outputTest(getTaf(station))
     outputTest(metarHandler(station))
 
 ################################################################################
