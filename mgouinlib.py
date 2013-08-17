@@ -206,7 +206,8 @@ def outputTest(lines):
 
 ################################################################################
 def gmlsTest():
-    query = u"caf\xe9 \xe0 montr\xe9al"
+    #query = u"caf\xe9 \xe0 montr\xe9al"
+    query = "cafe near montreal"
     print query
     print urllib.urlencode(encodeDict({'q' : query}))
     outputTest(gmlsHandler(query))
@@ -229,8 +230,8 @@ def urlTest():
 
 ################################################################################
 def main():
-    metarTest()
-    #gmlsTest()
+    #metarTest()
+    gmlsTest()
     #urlTest()
 
 if __name__ == '__main__':

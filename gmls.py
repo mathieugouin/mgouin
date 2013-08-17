@@ -21,16 +21,20 @@ import mgouinlib as MGL
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        self.response.headers["Content-Type"] = "text/html"
-        self.response.write('<html><head><title>GMLS</title><meta name="txtweb-appkey" content="ae878361-320b-4dcf-90b8-39ac8f7e4e75" /></head>\n<body>\n\n')
+        self.response.headers["Content-Type"] = "text/html; charset=utf-8"
 
-        # DEBUG: Print all arguments
-        #for a in self.request.arguments():
-        #    self.response.write("<div>Argument [" + a + "] = [" + self.request.get(a) + "]</div>")
+        self.response.write('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"\n')
+        self.response.write('  "http://www.w3.org/TR/html4/loose.dtd">\n')
+        self.response.write('<html>\n' +
+            '<head>\n' +
+            '<title>GMLS</title>\n' +
+            '<meta http-equiv="Content-type" content="text/html;charset=UTF-8">\n' +
+            '<meta name="txtweb-appkey" content="ae878361-320b-4dcf-90b8-39ac8f7e4e75">\n' +
+            '</head>\n' +
+            '<body>\n\n')
 
         lines = []
         query = self.request.get("txtweb-message")
-        #lines.append("Asked for query: [" + query + "]")
         if query == "":
             lines.extend([
                 "Google Map Local Search (GMLS)",
@@ -43,8 +47,8 @@ class MainPage(webapp2.RequestHandler):
         for l in lines:
             self.response.write(MGL.processLine(l))
 
-        self.response.write("\n")
-        self.response.write(r"""<script>""")
+        self.response.write('\n')
+        self.response.write(r"""<script type="text/javascript">""" + "\n")
         self.response.write(r"""    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){""" + "\n")
         self.response.write(r"""    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),""" + "\n")
         self.response.write(r"""    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)""" + "\n")
@@ -55,5 +59,5 @@ class MainPage(webapp2.RequestHandler):
 
         self.response.write("\n</body>\n</html>\n")
 
-# Public app
 app = webapp2.WSGIApplication([(r'/.*', MainPage)], debug=True)
+
