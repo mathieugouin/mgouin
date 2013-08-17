@@ -158,13 +158,16 @@ def gmlsGetInfo(ref):
     lines = []
     try:
         f = urllib.urlopen(url)
-
         root = ET.parse(f).getroot()
         if root.find('status').text == 'OK':
             for result in root.findall('result'):
-                lines.append(result.find('name').text)
-                lines.append(result.find('formatted_address').text)
-                lines.append(result.find('formatted_phone_number').text)
+                for key in ['name', 'formatted_address', 'formatted_phone_number']:
+                    element = result.find(key)
+                    if element is not None:
+                        value = element.text
+                        if value is not None:
+                            lines.append(value)
+
     except:
         pass
 
@@ -185,7 +188,8 @@ def gmlsHandler(query):
             results = root.findall('result')
             for i in range(min(10, len(results))):
                 result = results[i]
-                infoLines = gmlsGetInfo(result.find("reference").text)
+                ref = result.find("reference").text
+                infoLines = gmlsGetInfo(ref)
                 s = "#%d. " % (i + 1)
                 if len(infoLines) > 0:
                     s += infoLines.pop(0) # put place title with the number
@@ -207,10 +211,15 @@ def outputTest(lines):
 ################################################################################
 def gmlsTest():
     #query = u"caf\xe9 \xe0 montr\xe9al"
-    query = "cafe near montreal"
+    query = "Hotel Humnabad"
+    # None
+    #ref = 'CoQBcgAAAJmSjg3Uwbx33GmWZQiOPr6dgz0z3oTEAbNDJR-5vcplOE_yM3Op2fsJNX5Idtja4QC5FAZgDltjN8jeVd1voMdZkY-o0KlTVatR9XgIqmWN19F0znuCewl0rgTc98Z5gwBZcqCTA7D43p2B5mGRp0wA9nETYm3p4yoftYWCAH-0EhDcQfduXY39jVnd_RsU6AkaGhQgDJ3nGr7cr9-fapWSwjrDIBkeZQ'
+    # Exception
+    ref = 'CnRqAAAA92F_r2BsbckojgZRSf-ddUNServOYtrsygt-LMHlZaO_akMRaqz50Oi6ihi6dRPp7vjv1e8QzIKN67u6igRff9qbQfSl3g45zUaYH8aazVN7iwxhSNXvAd7HLa6Wea22TnP5UfmNKVQgpOFx73cnBxIQTzU8pjOV1hd_80u1UKD_RxoU8dl6Af6a-kwDhPZxa7dZFugks6E'
     print query
     print urllib.urlencode(encodeDict({'q' : query}))
     outputTest(gmlsHandler(query))
+    #outputTest(gmlsGetInfo(ref))
 
 ################################################################################
 def metarTest():
