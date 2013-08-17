@@ -142,8 +142,8 @@ def metarHandler(station):
     else:
         lines = ["METAR Syntax: @mgouin <station>",
                  "Example: @mgouin KJFK",
-                 "Airport Finder Syntax:",
-                 "@mgouin <keyword>",
+                 BLANK_LINE,
+                 "Airport Finder Syntax: @mgouin <keyword>",
                  "Example: @mgouin miami"]
 
     return lines
