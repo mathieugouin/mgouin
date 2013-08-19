@@ -39,13 +39,20 @@ class MainPage(webapp2.RequestHandler):
             lines.extend([
                 "Google Map Local Search (GMLS)",
                 "Search local business & places.",
-                "Example:",
-                "@gmls cafe in new york"])
+                "Examples:",
+                "@gmls cafe in New York",
+                "@gmls SBI in Mulund Mumbai",
+                "@gmls Hotels in Mysore",
+                "@gmls hospitals in Gachibowli Hyderabad",
+                ])
         else:
             lines += MGL.gmlsHandler(query)
 
         for l in lines:
             self.response.write(MGL.processLine(l))
+
+        self.response.write('\n')
+        self.response.write('<div><img src="powered-by-google-on-white.png" width="104" height="16" alt="Powered by Google"></div>\n')
 
         self.response.write('\n')
         self.response.write(r"""<script type="text/javascript">""" + "\n")
