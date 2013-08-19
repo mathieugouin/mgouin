@@ -52,7 +52,7 @@ class MainPage(webapp2.RequestHandler):
             self.response.write(MGL.processLine(l))
 
         self.response.write('\n')
-        self.response.write('<div><img src="powered-by-google-on-white.png" width="104" height="16" alt="Powered by Google"></div>\n')
+        self.response.write('<div><img src="powered-by-google-on-white.png" width="104" height="16"></div>\n')
 
         self.response.write('\n')
         self.response.write(r"""<script type="text/javascript">""" + "\n")
