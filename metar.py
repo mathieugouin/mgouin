@@ -17,8 +17,8 @@ import mgouinlib as MGL
 #
 # http://weather.noaa.gov/pub/data/observations/metar/stations/CYHU.TXT
 # http://weather.rap.ucar.edu/surface/stations.txt
-# http://localhost:8080/?txtweb-message=CYHU
-# http://mgouin.appspot.com/?txtweb-message=CYHU
+# http://localhost:8080/metar?txtweb-message=CYHU
+# http://mgouin.appspot.com/metar?txtweb-message=CYHU
 ################################################################################
 
 class MainPage(webapp2.RequestHandler):
@@ -29,16 +29,15 @@ class MainPage(webapp2.RequestHandler):
         self.response.write('  "http://www.w3.org/TR/html4/loose.dtd">\n')
         self.response.write('<html>\n' +
             '<head>\n' +
-            '<title>MGOUIN</title>\n' +
+            '<title>METAR</title>\n' +
             '<meta http-equiv="Content-type" content="text/html;charset=UTF-8">\n' +
-            '<meta name="txtweb-appkey" content="9dd9146a-ad9f-4dea-b38f-065b4165b357">\n' +
+            '<meta name="txtweb-appkey" content="362799d9-f58a-4723-9fc6-8d65d2d6c8a5">\n' +
             '</head>\n' +
             '<body>\n\n')
 
-        lines = [
-            "MGouin App",
-            "For metar, use @metar",
-            ]
+        station = self.request.get("txtweb-message").upper()
+
+        lines = MGL.metarHandler(station)
 
         for l in lines:
             self.response.write(MGL.processLine(l))
@@ -55,4 +54,5 @@ class MainPage(webapp2.RequestHandler):
 
         self.response.write("\n</body>\n</html>\n")
 
-app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
+app = webapp2.WSGIApplication([(r'/.*', MainPage)], debug=True)
+

@@ -16,6 +16,9 @@ handlers:
 - url: /gmls/?
   script: gmls.app
 
+- url: /metar/?
+  script: metar.app
+
 - url: /.*
   script: mgouin.app
 
