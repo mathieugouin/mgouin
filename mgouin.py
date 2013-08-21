@@ -31,7 +31,7 @@ class MainPage(webapp2.RequestHandler):
             '<head>\n' +
             '<title>METAR</title>\n' +
             '<meta http-equiv="Content-type" content="text/html;charset=UTF-8">\n' +
-            '<meta name="txtweb-appkey" content="9dd9146a-ad9f-4dea-b38f-065b4165b357">\n' +
+            '<meta name="txtweb-appkey" content="362799d9-f58a-4723-9fc6-8d65d2d6c8a5">\n' +
             '</head>\n' +
             '<body>\n\n')
 

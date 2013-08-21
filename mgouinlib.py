@@ -140,11 +140,11 @@ def metarHandler(station):
             if len(lines) >= 2:
                 lines.pop() # remove last blank line
     else:
-        lines = ["METAR Syntax: @mgouin <station>",
-                 "Example: @mgouin KJFK",
+        lines = ["METAR & TAF Syntax: @metar <station>",
+                 "Example: @metar KJFK",
                  BLANK_LINE,
-                 "Airport Finder Syntax: @mgouin <keyword>",
-                 "Example: @mgouin miami"]
+                 "Airport Finder Syntax: @metar <keyword>",
+                 "Example: @metar miami"]
 
     return lines
 
@@ -223,7 +223,7 @@ def gmlsTest():
 
 ################################################################################
 def metarTest():
-    station = "CYHU"
+    station = "EGLL"
     #print getMetar(station) == getMetar2(station)
     #print getMetar(station)
     #print getMetar2(station)
@@ -239,8 +239,8 @@ def urlTest():
 
 ################################################################################
 def main():
-    #metarTest()
-    gmlsTest()
+    metarTest()
+    #gmlsTest()
     #urlTest()
 
 if __name__ == '__main__':
