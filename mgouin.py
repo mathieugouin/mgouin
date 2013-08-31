@@ -15,10 +15,8 @@ import mgouinlib as MGL
 # txtweb-protocol
 # The txtweb-protocol string that was sent to your app
 #
-# http://weather.noaa.gov/pub/data/observations/metar/stations/CYHU.TXT
-# http://weather.rap.ucar.edu/surface/stations.txt
-# http://localhost:8080/?txtweb-message=CYHU
-# http://mgouin.appspot.com/?txtweb-message=CYHU
+# http://localhost:8080/?txtweb-message=
+# http://mgouin.appspot.com/?txtweb-message=
 ################################################################################
 
 class MainPage(webapp2.RequestHandler):
