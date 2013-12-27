@@ -1,4 +1,5 @@
 import re
+import mgouinlib as MGL
 
 def main():
     stations = []
@@ -24,7 +25,7 @@ def main():
         print d
 
 def dupTest():
-    f = open("dup.txt", "r")
+    f = open("duplicate.txt", "r")
     dupData = f.readlines()
     f.close()
 
@@ -45,6 +46,17 @@ def dupTest():
         if nb != 1:
             print l, nb
 
+def loadTest():
+    f = open("duplicate.txt", "r")
+    dupData = f.readlines()
+    f.close()
+    for l in dupData:
+        l = l.split()[0]
+        print l
+        print MGL.readUrlAll("http://mgouin.appspot.com/metar?txtweb-message=" + l)
+
+
 if __name__ == '__main__':
     #main()
-    dupTest()
+    #dupTest()
+    loadTest()
