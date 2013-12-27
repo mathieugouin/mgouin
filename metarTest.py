@@ -52,9 +52,9 @@ def loadTest():
     f.close()
     for l in dupData:
         l = l.split()[0]
+        print "##########################################"
         print l
         print MGL.readUrlAll("http://mgouin.appspot.com/metar?txtweb-message=" + l)
-
 
 if __name__ == '__main__':
     #main()
