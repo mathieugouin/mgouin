@@ -62,8 +62,10 @@ def processLine(line):
         return surroundDiv(htmlEscape(line))
 
 ################################################################################
-def findStation(txt):
+def findStation(txt, icao = False):
     lines = []
+    if icao: # find exactly the ICAO code
+        txt = r"^.{20}\b" + txt.strip() + r"\b"
     for l in readUrl("http://weather.rap.ucar.edu/surface/stations.txt"):
         if re.search(txt, l, re.IGNORECASE):
             lines.append(l)
@@ -119,11 +121,11 @@ def metarHandler(station):
     if len(station) > 0: # user provided a station
         metarLines = getMetar2(station)
         if len(metarLines) > 0: # metar data available
-            stationName = findStation(station)
+            stationName = findStation(station, icao = True)
             if len(stationName) > 0:
                 match = re.match(r"^(...................)", stationName[0])
                 if match:
-                    lines.append(match.group(1))
+                    lines.append(match.group(1).strip())
             lines += metarLines
             # Find taf data
             tafLines = getTaf(station)
@@ -223,12 +225,13 @@ def gmlsTest():
 
 ################################################################################
 def metarTest():
-    station = "EGLL"
+    station = "LFPO"
     #print getMetar(station) == getMetar2(station)
     #print getMetar(station)
     #print getMetar2(station)
     #outputTest(getTaf(station))
     outputTest(metarHandler(station))
+    #outputTest(findStation(station, True))
 
 ################################################################################
 def urlTest():
