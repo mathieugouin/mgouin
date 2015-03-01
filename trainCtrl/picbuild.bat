@@ -1,3 +1,5 @@
+REM used to compile for PIC
+
 @echo off
 set OldPath=%Path%
 set Path=C:\PIC_C\PICC;C:\PIC_C\PICC\DEVICES;%Path%
