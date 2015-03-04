@@ -1,7 +1,6 @@
 /*************************************************************************
 * Compiler :  CCS C - 16F876
-* Description : Common typedefs.
-*
+* Description : Common typedefs & macros
 *************************************************************************/
 
 #ifndef COMMON_H
