@@ -1,5 +1,4 @@
-/*
- *
+/**
  * Nominally each half cycle of a "1" bit must have a period of 58 microseconds
  * giving a total time of 116 microseconds. To allow some design latitude a
  * command station may transmit 1's with a period from 55 to 61 microseconds
@@ -44,6 +43,6 @@
 
 #include "common.h"
 
-uint8_t compute_xor(uint8_t * rawbytes, uint8_t size);
+uint8_t compute_xor(const uint8_t * rawbytes, uint8_t size);
 
 #endif // DCC_H
