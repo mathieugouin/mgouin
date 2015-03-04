@@ -1,4 +1,4 @@
-/*
+/**
  * Circular buffer implementation
  */
 
