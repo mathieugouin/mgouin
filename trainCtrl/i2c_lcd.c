@@ -1,5 +1,9 @@
 #include "i2c_lcd.h"
 
+static void i2c_lcd_write_command(uint8_t value);
+static void i2c_lcd_write_command4b(uint8_t value);
+
+
 /************************************************************************
 * Description : Sends a data value to the LCD by placing the RS pin
 *               at HIGH and sends the Enable signal.
@@ -41,7 +45,7 @@ void i2c_lcd_write_data(uint8_t value)
 * Parameters :  value, the data to be written to the LCD
 * Return :      void
 ************************************************************************/
-void i2c_lcd_write_command(uint8_t value)
+static void i2c_lcd_write_command(uint8_t value)
 {
     // variables containing the high and low nibble of the value
     uint8_t high_nibble, low_nibble;
@@ -75,7 +79,7 @@ void i2c_lcd_write_command(uint8_t value)
 *               order nibble is sent
 * Return :      void
 ************************************************************************/
-void i2c_lcd_write_command4b(uint8_t value)
+static void i2c_lcd_write_command4b(uint8_t value)
 {
     value = value & 0xF0;       // use high order nibble
 
