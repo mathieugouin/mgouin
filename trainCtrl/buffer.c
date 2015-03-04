@@ -1,3 +1,7 @@
+/**
+ * Circular buffer implementation
+ */
+
 #include "buffer.h"
 
 bufferStatus_t bufferInit(bufferStruct_t* iopBuf, bufferData_t *bufferStorage, bufferIndex_t size)
