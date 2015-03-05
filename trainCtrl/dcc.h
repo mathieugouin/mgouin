@@ -43,6 +43,5 @@
 
 #include "common.h"
 
-uint8_t compute_xor(const uint8_t * rawbytes, uint8_t size);
 
 #endif // DCC_H
