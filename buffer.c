@@ -85,7 +85,7 @@ bufferStatus_t bufferPut(bufferStruct_t* iopBuf, bufferData_t data)
   {
     status = BUFFER_OK;
 
-    /* Store the label in the buffer */
+    /* Store the data in the buffer */
     iopBuf->data[iopBuf->putIdx] = data;
     /* Update the in pointer */
     iopBuf->putIdx = tmpPutIdx;
