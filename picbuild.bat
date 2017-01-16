@@ -13,6 +13,7 @@ rem CCSC +FM -T -A -M -L -J -Z -D -DC +Y9 +P %SOURCE%
 
 goto end
 
+:syntax_error
 echo Syntax is:
 echo %0 CFILE
 
